@@ -14,25 +14,28 @@ class UI {
                 const currencies = data.currencies
                 const results = currencies.results
                 //console.log(results)
-                for(const key of Object.values(results)){
-                   console.log(`${key.currencyName} -- ${key.id}`)
-                    }
-                    
-
-                
                 //build the <select> from the values
-                /* const select = document.querySelector('#currency')
-                for(let currency in results){
+                const selectFrom = document.querySelector('#fromCurrency')
+                
+                for(const currency of Object.values(results)){
                     // add the options
                     const option = document.createElement('option')
                     option.value = currency.id 
                     option.appendChild(document.createTextNode(currency.currencyName))
-                    select.appendChild(option)
+                    selectFrom.appendChild(option)
                     console.log(`${currency.id} -- ${currency.currencyName}`)
                 }
-                */
+                const selectTo = document.querySelector('#toCurrency')
+                for(const currency of Object.values(results)){
+                    // add the options
+                    const option = document.createElement('option')
+                    option.value = currency.id 
+                    option.appendChild(document.createTextNode(currency.currencyName))
+                    selectTo.appendChild(option)
+                    console.log(`${currency.id} -- ${currency.currencyName}`)
+                }
                 
-
+                      
             }).catch(err =>{console.log(err)})
     }
 }
