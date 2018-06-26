@@ -7,7 +7,9 @@ class CurrencyConverterAPI {
         //convert it into json
         const currencies = await url.json()
         // return the object
-        return currencies 
+        return {
+            currencies
+        }
 
     }
 
