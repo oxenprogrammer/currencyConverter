@@ -10,8 +10,10 @@ class UI {
     printCurrencies() {
         currencyConverterAPI.getCurrenciesList()
              .then(data => {
-                // test the fetch
-                console.log(data)
+                // get the object
+                const results = data.results
+                console.log(results)
+
             })
     }
 }
