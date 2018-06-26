@@ -19,5 +19,11 @@ form.addEventListener('submit', event =>{
 
     // read toCurrency
     const toCurrency = document.getElementById('toCurrency').value
-    console.log(amountNumber, fromCurrency, toCurrency)
+
+    if(amountNumber==='' || fromCurrency==='' || toCurrency===''){
+        
+        console.log(`All inputs are mandatory`)
+    }else{
+        console.log(amountNumber, fromCurrency, toCurrency)
+    }
 })
