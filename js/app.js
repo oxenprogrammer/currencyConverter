@@ -26,6 +26,20 @@ form.addEventListener('submit', event =>{
         //display an error
         ui.errorMessage('All fields must be filled correctly', 'deep-orange darken-4 card-panel')
     }else{
-        console.log(amountNumber, fromCurrency, toCurrency)
+        //console.log(amountNumber, fromCurrency, toCurrency)
+        //Query API
+        //console.log(currencyConverterAPI.queryConversionAPI(fromCurrency, toCurrency))
+        let converted = currencyConverterAPI.queryConversionAPI(fromCurrency, toCurrency)
+        .then(data => {
+            return data.results
+        })
+
+        converted.then(data => {
+            //console.log(data)
+            for(const value of Object.values(data)){
+                console.log(value.val)
+            }
+        })
+        
     }
 })
