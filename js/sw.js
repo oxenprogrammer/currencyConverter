@@ -24,12 +24,27 @@ event.waitUntil(
 
 //activate service worker
 self.addEventListener('activate', (event) => {
-console.log('service worker activated', event);
+    //console.log('service worker activated', event)
+    const CURRENT_CACHE = 'v2'
+    event.waitUntil(
+        caches.keys()
+        .then((cacheKeys) => {
+            return Promise.all(
+                cacheKeys.map((cacheKey) => {
+                    if(cacheKey !== CURRENT_CACHE){
+                        console.log(`Deleting cache: ${cacheKey}`)
+                        return caches.delete(cacheKey)
+                    }
+                })
+            )
+        })
+    )
+
 });
 
 /** A service worker! */
 self.addEventListener('fetch', event => {
-    const version = 'v1'
+    const version = 'v2'
     event.respondWith(
         caches.open(version)
         .then((cache) => {
