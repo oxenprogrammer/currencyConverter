@@ -3,7 +3,7 @@
 const currencyConverterAPI = new CurrencyConverterAPI()
 const ui = new UI()
 
-(() => {if ('serviceWorker' in navigator) {
+if ('serviceWorker' in navigator) {
     navigator.serviceWorker.register('/js/sw.js', {scope: '/js/'})
     .then(reg => {
       // registration worked
@@ -13,8 +13,7 @@ const ui = new UI()
       console.log(`Registration failed with ${error}`)
     })
   }
-}
-)()
+
 
 // hold the form
 const form = document.getElementById('form')

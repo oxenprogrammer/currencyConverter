@@ -29,18 +29,21 @@ console.log('service worker activated', event);
 
 /** A service worker! */
 self.addEventListener('fetch', event => {
+    const version = 'v1'
     event.respondWith(
-        caches.match(event.request)
-        .then((response) => {
-            return response || fetch(event.request)
+        caches.open(version)
+        .then((cache) => {
+            return cache.match(event.request)
             .then((response) => {
-                console.log('fetched from network this time!')
-                return caches.open('v1')
-                .then((cache) => {
-                    cache.put(event.request, response.clone())
-                    return response
+                let fetchPromise = fetch(event.request)
+                .then((networkResponse) => {
+                    cache.put(event.request, networkResponse.clone())
+                    return networkResponse
                 })
+                event.waitUntil(fetchPromise)
+                return response
             })
         })
+       
     )
   })
