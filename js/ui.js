@@ -38,4 +38,19 @@ class UI {
                       
             }).catch(err =>{console.log(err)})
     }
+
+    errorMessage(message, className){
+        const div = document.createElement('div')
+        div.className = className
+        div.appendChild(document.createTextNode(message))
+
+        const msgDiv = document.querySelector('.messages')
+        msgDiv.appendChild(div)
+
+        //remove the error message after 4 seconds
+        setTimeout(() => {
+            document.querySelector('.messages div').remove()
+        },
+            4000)
+    }
 }

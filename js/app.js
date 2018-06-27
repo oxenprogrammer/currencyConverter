@@ -22,7 +22,9 @@ form.addEventListener('submit', event =>{
 
     if(amountNumber==='' || fromCurrency==='' || toCurrency===''){
         
-        console.log(`All inputs are mandatory`)
+        //console.log(`All inputs are mandatory`)
+        //display an error
+        ui.errorMessage('All fields must be filled correctly', 'deep-orange darken-4 card-panel')
     }else{
         console.log(amountNumber, fromCurrency, toCurrency)
     }
