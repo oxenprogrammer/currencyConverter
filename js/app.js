@@ -3,16 +3,18 @@
 const currencyConverterAPI = new CurrencyConverterAPI()
 const ui = new UI()
 
-if ('serviceWorker' in navigator) {
+(() => {if ('serviceWorker' in navigator) {
     navigator.serviceWorker.register('/js/sw.js', {scope: '/js/'})
-    .then(function(reg) {
+    .then(reg => {
       // registration worked
-      console.log('Registration succeeded. Scope is ' + reg.scope);
-    }).catch(function(error) {
+      console.log(`Registration succeeded. Scope is ${reg.scope}`)
+    }).catch(error => {
       // registration failed
-      console.log('Registration failed with ' + error);
-    });
+      console.log(`Registration failed with ${error}`)
+    })
   }
+}
+)()
 
 // hold the form
 const form = document.getElementById('form')
@@ -45,6 +47,7 @@ form.addEventListener('submit', event =>{
             return data.results
         }).catch(err =>{console.log(err)})
 
+        //promise chaining
         converted.then(data => {
             //console.log(data)
             for(const value of Object.values(data)){
