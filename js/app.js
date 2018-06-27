@@ -32,14 +32,15 @@ form.addEventListener('submit', event =>{
         let converted = currencyConverterAPI.queryConversionAPI(fromCurrency, toCurrency)
         .then(data => {
             return data.results
-        })
+        }).catch(err =>{console.log(err)})
 
         converted.then(data => {
             //console.log(data)
             for(const value of Object.values(data)){
-                console.log(value.val)
+                //console.log(value.val*amountNumber)
+                ui.displayValue(value.val*amountNumber)
             }
-        })
+        }).catch(err =>{console.log(err)})
         
     }
 })

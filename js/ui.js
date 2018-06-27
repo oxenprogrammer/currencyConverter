@@ -38,7 +38,7 @@ class UI {
                       
             }).catch(err =>{console.log(err)})
     }
-
+    // error message card
     errorMessage(message, className){
         const div = document.createElement('div')
         div.className = className
@@ -52,5 +52,21 @@ class UI {
             document.querySelector('.messages div').remove()
         },
             4000)
+    }
+
+    //display converted currency
+    displayValue(value){
+        //console.log(value)
+        let valueHTML = ``
+        valueHTML += `
+        <div class="card green darken-4">
+            <div class="card-content white-text">
+                <span class="card-title">Result</span>
+                <p>${value}</p>
+            </div>
+        </div>
+        `
+        const divResult = document.querySelector('#result')
+        divResult.innerHTML = valueHTML
     }
 }
