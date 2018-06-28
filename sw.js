@@ -8,12 +8,13 @@ event.waitUntil(
         (cache) => {
             return cache.addAll(
                 [
-                    './../index.html',
-                    './../img/currency-icon.png',
-                    './../css/materialize.min.css',
-                    './ui.js',
-                    './currencyConverterAPI.js',
-                    './materialize.min.js'
+                    '/',
+                    './index.html',
+                    './img/currency-icon.png',
+                    './css/materialize.min.css',
+                    './js/ui.js',
+                    './js/currencyConverterAPI.js',
+                    './js/materialize.min.js'
 
                 ]
             )
@@ -25,7 +26,7 @@ event.waitUntil(
 //activate service worker
 self.addEventListener('activate', (event) => {
     //console.log('service worker activated', event)
-    const CURRENT_CACHE = 'v2'
+    const CURRENT_CACHE = 'v4'
     event.waitUntil(
         caches.keys()
         .then((cacheKeys) => {
@@ -44,7 +45,7 @@ self.addEventListener('activate', (event) => {
 
 /** A service worker! */
 self.addEventListener('fetch', event => {
-    const version = 'v2'
+    const version = 'v4'
     event.respondWith(
         caches.open(version)
         .then((cache) => {
@@ -61,4 +62,13 @@ self.addEventListener('fetch', event => {
         })
        
     )
-  })
+})
+
+    
+
+    
+        
+  
+    
+  
+  
