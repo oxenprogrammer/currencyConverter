@@ -12,9 +12,11 @@ event.waitUntil(
                     './index.html',
                     './img/currency-icon.png',
                     './css/materialize.min.css',
+                    './js/app.js',
                     './js/ui.js',
                     './js/currencyConverterAPI.js',
                     './js/materialize.min.js'
+                    
 
                 ]
             )

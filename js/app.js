@@ -14,6 +14,10 @@ if ('serviceWorker' in navigator) {
     })
   }
 
+let dbPromise = idb.open('currency-db', 1, function(upgradeDb) {
+                    upgradeDb.createObjectStore('currencyName',{autoIncrement:true});
+                });
+
 
 // hold the form
 const form = document.getElementById('form')
@@ -32,6 +36,8 @@ form.addEventListener('submit', event =>{
     // read toCurrency
     const toCurrency = document.getElementById('toCurrency').value
 
+    const query = `${fromCurrency}_${toCurrency}`
+
     if(amountNumber==='' || fromCurrency==='' || toCurrency===''){
         
         //console.log(`All inputs are mandatory`)
@@ -46,14 +52,31 @@ form.addEventListener('submit', event =>{
             return data.results
         }).catch(err =>{console.log(err)})
 
-        //promise chaining
+        //promise chaining ooo
         converted.then(data => {
             //console.log(data)
             for(const value of Object.values(data)){
-                //console.log(value.val*amountNumber)
+                //console.log(value)
                 ui.displayValue(value.val*amountNumber)
+                dbPromise.then(db => {
+                    return db
+                }).then( dbValue => {
+                    let tx = dbValue.transaction('currencyName', 'readwrite')
+                    let currencyStore = tx.objectStore('currencyName')
+                    currencyStore.put(value.val)
+                    console.log(value.val)
+                })
             }
+          
         }).catch(err =>{console.log(err)})
+
+
         
     }
+
+    
+
 })
+
+
+

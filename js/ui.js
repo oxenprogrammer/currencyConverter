@@ -23,7 +23,7 @@ class UI {
                     option.value = currency.id 
                     option.appendChild(document.createTextNode(currency.currencyName))
                     selectFrom.appendChild(option)
-                    //console.log(`${currency.id} -- ${currency.currencyName}`)
+                    //console.log(`${currency.id} -- ${currency.currencyName}`
                 }
                 const selectTo = document.querySelector('#toCurrency')
                 for(const currency of Object.values(results)){
