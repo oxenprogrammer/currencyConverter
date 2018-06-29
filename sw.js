@@ -28,7 +28,7 @@ event.waitUntil(
 //activate service worker
 self.addEventListener('activate', (event) => {
     //console.log('service worker activated', event)
-    const CURRENT_CACHE = 'v4'
+    const CURRENT_CACHE = 'v5'
     event.waitUntil(
         caches.keys()
         .then((cacheKeys) => {
@@ -47,23 +47,23 @@ self.addEventListener('activate', (event) => {
 
 /** A service worker! */
 self.addEventListener('fetch', event => {
-    const version = 'v4'
+    const version = 'v5'
     event.respondWith(
-        caches.open(version)
-        .then((cache) => {
-            return cache.match(event.request)
-            .then((response) => {
-                let fetchPromise = fetch(event.request)
-                .then((networkResponse) => {
-                    cache.put(event.request, networkResponse.clone())
-                    return networkResponse
-                })
-                event.waitUntil(fetchPromise)
-                return response
-            })
-        })
-       
-    )
+        // Try the network
+        fetch(event.request)
+          .then(function(res) {
+            return caches.open(version)
+              .then(function(cache) {
+                // Put in cache if succeeds
+                cache.put(event.request.url, res.clone());
+                return res;
+              })
+          })
+          .catch(function(err) {
+              // Fallback to cache
+              return caches.match(event.request);
+          })
+    );
 })
 
     

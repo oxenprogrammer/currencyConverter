@@ -63,7 +63,10 @@ form.addEventListener('submit', event =>{
                 }).then( dbValue => {
                     let tx = dbValue.transaction('currencyName', 'readwrite')
                     let currencyStore = tx.objectStore('currencyName')
-                    currencyStore.put(value.val)
+                    currencyStore.put({
+                        rate: value.val,
+                        id: this.query
+                    })
                     console.log(value.val)
                 })
             }
