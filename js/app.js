@@ -5,7 +5,7 @@ const ui = new UI()
 
 if ('serviceWorker' in navigator) {
     window.addEventListener('load', function () {
-        navigator.serviceWorker.register('sw.js', {scope: '/currencyConverter'})
+        navigator.serviceWorker.register('sw.js', {scope: '/currencyConverter/'})
         .then(reg => {
         // registration worked
         console.log(`Registration succeeded. Scope is ${reg.scope}`)
