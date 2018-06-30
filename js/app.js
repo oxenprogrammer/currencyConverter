@@ -4,18 +4,20 @@ const currencyConverterAPI = new CurrencyConverterAPI()
 const ui = new UI()
 
 if ('serviceWorker' in navigator) {
-    navigator.serviceWorker.register('/sw.js', {scope: '/'})
-    .then(reg => {
-      // registration worked
-      console.log(`Registration succeeded. Scope is ${reg.scope}`)
-    }).catch(error => {
-      // registration failed
-      console.log(`Registration failed with ${error}`)
+    window.addEventListener('load', function () {
+        navigator.serviceWorker.register('sw.js', {scope: '/currencyConverter'})
+        .then(reg => {
+        // registration worked
+        console.log(`Registration succeeded. Scope is ${reg.scope}`)
+        }).catch(error => {
+        // registration failed
+        console.log(`Registration failed with ${error}`)
+        })
     })
   }
 
 let dbPromise = idb.open('currency-db', 1, function(upgradeDb) {
-                    upgradeDb.createObjectStore('currencyName',{autoIncrement:true});
+                    upgradeDb.createObjectStore('currencyName',{keyPath: 'id'});
                 });
 
 
@@ -65,7 +67,7 @@ form.addEventListener('submit', event =>{
                     let currencyStore = tx.objectStore('currencyName')
                     currencyStore.put({
                         rate: value.val,
-                        id: this.query
+                        id: query
                     })
                     console.log(value.val)
                 })

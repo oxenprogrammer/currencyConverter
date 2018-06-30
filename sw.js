@@ -8,11 +8,11 @@ event.waitUntil(
         (cache) => {
             return cache.addAll(
                 [
-                    '/',
                     './index.html',
                     './img/currency-icon.png',
                     './css/materialize.min.css',
                     './js/app.js',
+                    './js/idb.js',
                     './js/ui.js',
                     './js/currencyConverterAPI.js',
                     './js/materialize.min.js'
