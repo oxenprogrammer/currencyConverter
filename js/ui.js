@@ -9,7 +9,13 @@ class UI {
     // Prints the options to be selected
     printCurrencies() {
         let dbPromise = idb.open('currency-db', 3, upgradeDb => {
-            upgradeDb.createObjectStore('allCurrencyName')
+            switch(upgradeDb.oldVersion){
+                case 0:
+                    upgradeDb.createObjectStore('allCurrencyName')
+                case 1:
+                    upgradeDb.createObjectStore('converter',{keyPath: 'id'})
+            }
+            
             
         });
         currencyConverterAPI.getCurrenciesList()
