@@ -16,8 +16,9 @@ if ('serviceWorker' in navigator) {
     })
   }
 
-let dbPromise = idb.open('currency-db', 1, function(upgradeDb) {
-                    upgradeDb.createObjectStore('currencyName',{keyPath: 'id'});
+let dbPromise = idb.open('currency-db', 3, upgradeDb => {
+                    upgradeDb.createObjectStore('converter',{keyPath: 'id'})
+                    
                 });
 
 
@@ -63,24 +64,39 @@ form.addEventListener('submit', event =>{
                 dbPromise.then(db => {
                     return db
                 }).then( dbValue => {
-                    let tx = dbValue.transaction('currencyName', 'readwrite')
-                    let currencyStore = tx.objectStore('currencyName')
+                    let tx = dbValue.transaction('converter', 'readwrite')
+                    let currencyStore = tx.objectStore('converter')
                     currencyStore.put({
                         rate: value.val,
                         id: query
                     })
-                    console.log(value.val)
-                })
+                    //console.log(value.val)
+                    return tx.complete
+                    return rate
+                }).catch(
+                    dbPromise.then(db => {
+                        return db
+                    }).then(offlineDbValue => {
+                        let offlineTx = offlineDbValue.transaction('converter')
+                        .objectStore('converter')
+                        offlineTx.get(query).then( offlineTxStored => {
+                            let offlineRate = offlineTxStored.rate
+                            if(offlineRate != undefined){
+                                ui.displayValue(offlineRate*amountNumber)
+                            }
+                           
+                        }
+                            
+                        )
+                    })
+                )
             }
           
         }).catch(err =>{console.log(err)})
 
-
-        
     }
 
     
-
 })
 
 

@@ -8,6 +8,10 @@ class UI {
     }
     // Prints the options to be selected
     printCurrencies() {
+        let dbPromise = idb.open('currency-db', 3, upgradeDb => {
+            upgradeDb.createObjectStore('allCurrencyName')
+            
+        });
         currencyConverterAPI.getCurrenciesList()
              .then(data => {
                 //console.log(data)
@@ -24,6 +28,11 @@ class UI {
                     option.appendChild(document.createTextNode(currency.currencyName))
                     selectFrom.appendChild(option)
                     //console.log(`${currency.id} -- ${currency.currencyName}`
+                    dbPromise.then(db => {
+                        const tranx = db.transaction('allCurrencyName', 'readwrite')
+                        const nameDb = tranx.objectStore('allCurrencyName')
+                        nameDb.put(`${currency.id}`, `${currency.currencyName}`)
+                    })
                 }
                 const selectTo = document.querySelector('#toCurrency')
                 for(const currency of Object.values(results)){
@@ -33,6 +42,11 @@ class UI {
                     option.appendChild(document.createTextNode(currency.currencyName))
                     selectTo.appendChild(option)
                     //console.log(`${currency.id} -- ${currency.currencyName}`)
+                    dbPromise.then(db => {
+                        const tranx = db.transaction('allCurrencyName', 'readwrite')
+                        const nameDb = tranx.objectStore('allCurrencyName')
+                        nameDb.put(`${currency.id}`, `${currency.currencyName}`)
+                    })
                 }
                 
                       
