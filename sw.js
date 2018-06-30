@@ -1,25 +1,29 @@
 //install service workker
+const urls = [
+    './index.html',
+    './img/currency-icon.png',
+    './css/materialize.min.css',
+    './js/idb.js',
+    './js/app.js',
+    './js/ui.js',
+    './js/currencyConverterAPI.js',
+    './js/materialize.min.js'
+]
 self.addEventListener('install', (event) => {
 //console.log('service worker installed', event);
+
 if(!('caches' in self)) return
 event.waitUntil(
-    caches.open('v1')
+    caches.open('v5')
     .then(
         (cache) => {
-            return cache.addAll(
-                [
-                    './index.html',
-                    './img/currency-icon.png',
-                    './css/materialize.min.css',
-                    './js/app.js',
-                    './js/idb.js',
-                    './js/ui.js',
-                    './js/currencyConverterAPI.js',
-                    './js/materialize.min.js'
-                    
-
-                ]
-            )
+            urls.forEach(url => {
+                cache.add(url).catch(
+                    error => {
+                        console.log(`This is the ${error}`)
+                    }
+                )
+            })
         }
     )
 )
