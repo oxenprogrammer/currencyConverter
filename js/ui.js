@@ -8,6 +8,10 @@ class UI {
     }
     // Prints the options to be selected
     printCurrencies() {
+        //build the <select> from the values
+        const selectFrom = document.querySelector('#fromCurrency')
+        const selectTo = document.querySelector('#toCurrency')
+
         let dbPromise = idb.open('currency-db', 3, upgradeDb => {
             switch(upgradeDb.oldVersion){
                 case 0:
@@ -24,8 +28,7 @@ class UI {
                 const currencies = data.currencies
                 const results = currencies.results
                 //console.log(results)
-                //build the <select> from the values
-                const selectFrom = document.querySelector('#fromCurrency')
+                
                 
                 for(const currency of Object.values(results)){
                     // add the options
@@ -40,7 +43,7 @@ class UI {
                         nameDb.put(`${currency.id}`, `${currency.currencyName}`)
                     })
                 }
-                const selectTo = document.querySelector('#toCurrency')
+                
                 for(const currency of Object.values(results)){
                     // add the options
                     const option = document.createElement('option')
@@ -51,12 +54,41 @@ class UI {
                     dbPromise.then(db => {
                         const tranx = db.transaction('allCurrencyName', 'readwrite')
                         const nameDb = tranx.objectStore('allCurrencyName')
-                        nameDb.put(`${currency.id}`, `${currency.currencyName}`)
+                        nameDb.put(`${currency.currencyName}`, `${currency.id}`)
                     })
                 }
                 
                       
-            }).catch(err =>{console.log(err)})
+            }).catch(err =>{
+                console.log(err, `meanwhile fetching from indexDb`)
+                //if we fail to get from internet, fall back to indexDb
+
+                // fill the from <select>
+                dbPromise.then(db => {
+                    const offCurrencies = db.transaction('allCurrencyName')
+                    .objectStore('allCurrencyName')
+                    .getAll()
+                    .then( offlineCur => {
+                        const option = document.createElement('option')
+                        option.value = offlineCur.Key
+                        option.appendChild(document.createTextNode(offlineCur.Value))
+                        selectFrom.appendChild(option)
+                    })    
+                })
+
+                dbPromise.then(db => {
+                    const offCurrencies = db.transaction('allCurrencyName')
+                    .objectStore('allCurrencyName')
+                    .getAll()
+                    .then( offlineCur => {
+                        const option = document.createElement('option')
+                        option.value = offlineCur.Key
+                        option.appendChild(document.createTextNode(offlineCur.Value))
+                        selectTo.appendChild(option)
+                    })    
+                })
+
+            })
     }
     // error message card
     errorMessage(message, className){

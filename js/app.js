@@ -80,10 +80,14 @@ form.addEventListener('submit', event =>{
                         let offlineTx = offlineDbValue.transaction('converter')
                         .objectStore('converter')
                         offlineTx.get(query).then( offlineTxStored => {
-                            let offlineRate = offlineTxStored.rate
-                            if(offlineRate != undefined){
-                                ui.displayValue(offlineRate*amountNumber)
+                            
+                            for(const rate of Object.values(offlineTxStored)){
+                                let offlineRate = offlineTxStored.rate
+                                if(offlineRate != undefined){
+                                    ui.displayValue(offlineRate*amountNumber)
+                                }
                             }
+                            
                            
                         }
                             
@@ -92,7 +96,23 @@ form.addEventListener('submit', event =>{
                 )
             }
           
-        }).catch(err =>{console.log(err)})
+        }).catch(
+            dbPromise.then(db => {
+                return db
+            }).then(offlineDbValue => {
+                let offlineTx = offlineDbValue.transaction('converter')
+                .objectStore('converter')
+                offlineTx.get(query).then( offlineTxStored => {
+                    let offlineRate = offlineTxStored.rate
+                    if(offlineRate != undefined){
+                        ui.displayValue(offlineRate*amountNumber)
+                    }
+                   
+                }
+                    
+                )
+            })
+        )
 
     }
 
