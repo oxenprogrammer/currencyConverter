@@ -69,10 +69,13 @@ class UI {
                     .objectStore('allCurrencyName')
                     .getAll()
                     .then( offlineCur => {
-                        const option = document.createElement('option')
-                        option.value = offlineCur.Key
-                        option.appendChild(document.createTextNode(offlineCur.Value))
-                        selectFrom.appendChild(option)
+                        for(let offline of offlineCur){
+                            const option = document.createElement('option')
+                            option.value = offline.Key
+                            option.appendChild(document.createTextNode(offline.Value))
+                            selectFrom.appendChild(option)
+                        }
+                        
                     })    
                 })
 
@@ -81,10 +84,13 @@ class UI {
                     .objectStore('allCurrencyName')
                     .getAll()
                     .then( offlineCur => {
-                        const option = document.createElement('option')
-                        option.value = offlineCur.Key
-                        option.appendChild(document.createTextNode(offlineCur.Value))
-                        selectTo.appendChild(option)
+                        for(let offline of offlineCur){
+                            const option = document.createElement('option')
+                            option.value = offline.Key
+                            option.appendChild(document.createTextNode(offline.Value))
+                            selectTo.appendChild(option)
+                        }
+                        
                     })    
                 })
 
