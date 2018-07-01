@@ -105,7 +105,7 @@ form.addEventListener('submit', event =>{
                 offlineTx.get(query).then( offlineTxStored => {
                     for(const rate of Object.values(offlineTxStored)){
                         let offlineRate = offlineTxStored.rate
-                        if(offlineRate != undefined){
+                        if(offlineRate !== undefined){
                             ui.displayValue(offlineRate*amountNumber)
                         }
                     }

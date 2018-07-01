@@ -1,7 +1,7 @@
 //install service workker
 const urls = [
     './index.html',
-    './img/currency-icon.png',
+    './img/favicon.jpg',
     './css/materialize.min.css',
     './js/idb.js',
     './js/app.js',
