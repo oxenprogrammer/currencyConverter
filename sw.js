@@ -7,7 +7,8 @@ const urls = [
     './js/app.js',
     './js/ui.js',
     './js/currencyConverterAPI.js',
-    './js/materialize.min.js'
+    './js/materialize.min.js',
+    'https://free.currencyconverterapi.com/api/v5/currencies'
 ]
 self.addEventListener('install', (event) => {
 //console.log('service worker installed', event);
